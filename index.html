@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>確認画面</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      margin: 24px;
+    }
+
+    /* ボーダーを消すと表示がずれて違和感を感じるため、透明色に変更 */
+    [readonly] {
+      border-color: transparent;
+    }
+
+    [readonly]:active,
+    [readonly]:focus,
+    [readonly]:hover {
+      border-color: transparent;
+    }
+
+    /* プレースホルダーを表示させない */
+    [readonly]::placeholder {
+      color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="card-content">
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Text input" autofocus>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Email input">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Subject</label>
+        <div class="control">
+          <div class="select">
+            <select>
+              <option value="" selected>Select dropdown</option>
+              <option value="1">With options</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Message</label>
+        <div class="control">
+          <textarea class="textarea" placeholder="Textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox">
+            I agree to the <a href="#">terms and conditions</a>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="question">
+            Yes
+          </label>
+          <label class="radio">
+            <input type="radio" name="question">
+            No
+          </label>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link" id="btnConfirm">確認</button>
+        </div>
+        <div class="control">
+          <button class="button is-text" id="btnCancel">キャンセル</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 入力要素を取得
+    // input系とselect系では処理が違うので別変数に格納(if文でnode判定してもよいネスト深くなりそう)
+    const inputs = document.querySelectorAll('input,textarea');
+    const selects = document.querySelectorAll('select');
+
+    const btnConfirm = document.getElementById('btnConfirm');
+    btnConfirm.addEventListener('click', function () {
+      inputs.forEach(function (el) {
+        const type = el.getAttribute('type');
+        if (type === 'checkbox') {
+          el.onclick = (event) => { event.preventDefault() };
+        } else if (type === 'radio' && !el.checked) {
+          el.setAttribute('disabled', '');
+        } else {
+          el.setAttribute('readonly', '');
+        }
+        el.setAttribute('tabindex', -1);
+      });
+
+      selects.forEach(function (el) {
+        const val = el.value;
+        const options = el.querySelectorAll('option');
+        options.forEach(function (option) {
+          if (option.value !== val) {
+            option.setAttribute('disabled', '')
+          }
+        });
+      });
+    });
+
+    const cancelBtn = document.getElementById('btnCancel');
+    cancelBtn.addEventListener('click', function () {
+      const inputs = document.querySelectorAll('input,textarea,select');
+      inputs.forEach(function (el) {
+        const type = el.getAttribute('type');
+        if (type === 'checkbox') {
+          el.onclick = () => { };
+        } else {
+          el.removeAttribute('readonly');
+          el.removeAttribute('disabled');
+        }
+        el.removeAttribute('tabindex');
+      });
+
+      selects.forEach(function (el) {
+        const options = el.querySelectorAll('option');
+        options.forEach(function (option) {
+          option.removeAttribute('disabled')
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

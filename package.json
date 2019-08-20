@@ -1,0 +1,26 @@
+{
+  "name": "confirm-by-readonly-attribute",
+  "version": "1.0.0",
+  "description": "確認画面を作成する際はreadonly属性を指定すると便利",
+  "scripts": {
+    "start": "live-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purini-to/confirm-by-readonly-attribute.git"
+  },
+  "keywords": [
+    "confirm",
+    "readonly"
+  ],
+  "author": "pr.hr.urainkyo@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purini-to/confirm-by-readonly-attribute/issues"
+  },
+  "homepage": "https://github.com/purini-to/confirm-by-readonly-attribute#readme",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  }
+}
